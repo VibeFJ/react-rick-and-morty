@@ -1,6 +1,15 @@
 import React from 'react'
 
-const Contenido = ({caracteres = []},{informacion}) => {
+const Contenido = ({caracteres = [], info, onNext, onPrev}) => {
+
+  const Next = () => {
+    onNext();
+  }
+  
+  const Prev = () => {
+    onPrev();
+  }
+
   return (
     <section class="blog-posts grid-system">
       <div class="container">
@@ -30,10 +39,19 @@ const Contenido = ({caracteres = []},{informacion}) => {
                 }
                 <div class="col-lg-12">
                   <ul class="page-numbers">
-                    <li><a href="#">1</a></li>
-                    <li class="active"><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                    {
+                      info.prev !== null ? (
+                        <li><a onClick={Prev}><i class="fa fa-angle-double-left"></i></a></li>
+                      )
+                      : null
+                    }
+                    <li class="active"><a href="#">1</a></li>
+                    {
+                      info.next !== null ? (
+                        <li><a onClick={Next}><i class="fa fa-angle-double-right"></i></a></li>
+                      )
+                      : null
+                    }
                   </ul>
                 </div>
               </div>

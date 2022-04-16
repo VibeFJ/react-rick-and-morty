@@ -6,17 +6,27 @@ import Footer from './Personajes/Footer'
 function App() {
 
   const [caracteres, setcatacteres] = useState([]);
-  const [info, setinfo] = useState();
+  const [info, setpagina] = useState({});
 
   const primeurl = 'https://rickandmortyapi.com/api/character/';
 
-  const Personajes = () => {
+  const Personajes = (primeurl) => {
     fetch(primeurl)
       .then(response => response.json())
-      .then(data => setcatacteres(data.results))
-      .then(datainfo => setinfo(datainfo.info))
+      .then(data => {
+        setcatacteres(data.results);
+        setpagina(data.info);
+      })
       .catch(error => console.log(error))
   };
+
+  const onNext = () => {
+    Personajes(info.next);
+  }
+
+  const onPrev = () => {
+    Personajes(info.prev);
+  }
 
   useEffect(() => {
     Personajes(primeurl);
@@ -27,7 +37,11 @@ function App() {
     <>
       <Header title="Rick and Morty"/>
       <br></br>
-      <Contenido caracteres={caracteres} informacion={info}/>
+      <Contenido 
+        caracteres={caracteres} 
+        info={info} 
+        onPrev={onPrev} 
+        onNext={onNext}/>
       <Footer />
     </>
   );
